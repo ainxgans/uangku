@@ -18,18 +18,22 @@
             .catch(() => {});
     });
 </script>
-<h1 class="text-2xl font-bold mb-6">Dashboard</h1>
-<div class="grid grid-cols-3 gap-4">
-    <div class="bg-white p-4 shadow rounded">
-        <div class="text-sm text-gray-500">Income</div>
-        <div class="text-xl font-bold text-green-600">Rp {s.income?.toLocaleString('id-ID') ?? 0}</div>
+<div class="mb-8">
+    <h1 class="text-3xl font-semibold tracking-tight text-slate-900">Dashboard</h1>
+    <p class="text-slate-500 mt-1">This month's financial summary</p>
+</div>
+
+<div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:border-slate-200 transition-colors">
+        <div class="text-sm font-medium text-slate-500 mb-2">Income</div>
+        <div class="text-3xl font-semibold text-emerald-600 tracking-tight">Rp {s.income?.toLocaleString('id-ID') ?? 0}</div>
     </div>
-    <div class="bg-white p-4 shadow rounded">
-        <div class="text-sm text-gray-500">Expense</div>
-        <div class="text-xl font-bold text-red-600">Rp {s.expense?.toLocaleString('id-ID') ?? 0}</div>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:border-slate-200 transition-colors">
+        <div class="text-sm font-medium text-slate-500 mb-2">Expense</div>
+        <div class="text-3xl font-semibold text-rose-600 tracking-tight">Rp {s.expense?.toLocaleString('id-ID') ?? 0}</div>
     </div>
-    <div class="bg-white p-4 shadow rounded">
-        <div class="text-sm text-gray-500">Balance</div>
-        <div class="text-xl font-bold">Rp {s.balance?.toLocaleString('id-ID') ?? 0}</div>
+    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-100 hover:border-slate-200 transition-colors">
+        <div class="text-sm font-medium text-slate-500 mb-2">Balance</div>
+        <div class="text-3xl font-semibold text-slate-900 tracking-tight">Rp {s.balance?.toLocaleString('id-ID') ?? 0}</div>
     </div>
 </div>
