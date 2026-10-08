@@ -112,11 +112,14 @@ database:
 auth:
   # JWT authentication
   jwt:
-    # Secret key for token generation and verification. Required: a secret
-    # committed to the repository is a secret your users can forge tokens with.
+    # Secret key for token generation and verification
     secret: <%= get_env(name="JWT_SECRET") %>
     # Token expiration time in seconds
     expiration: 604800 # 7 days
+    location:
+      - from: Cookie
+        name: token
+      - from: Bearer
     location:
       - from: Cookie
         name: token
