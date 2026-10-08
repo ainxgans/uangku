@@ -1,0 +1,44 @@
+version: '3.8'
+services:
+  postgres:
+    image: postgres:16-alpine
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: uangku
+      POSTGRES_USER: uangku
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-password}
+    ports:
+      - "5434:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://uangku:${DB_PASSWORD:-password}@postgres:5432/uangku
+      PORT: 3000
+      BINDING: 0.0.0.0
+      JWT_SECRET: ${JWT_SECRET:-sQzrZpmj3dvzyBSsMYZf}
+    ports:
+      - "3000:3000"
+    command: sh -c "cargo run --bin uangku_backend-cli start"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    depends_on:
+      - backend
+    environment:
+      PORT: 3001
+      ORIGIN: http://localhost:3001
+      PUBLIC_API_URL: http://backend:3000
+    ports:
+      - "3001:3001"
+    command: npm run dev -- --host 0.0.0.0
+
+volumes:
+  pgdata:
