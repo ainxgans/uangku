@@ -68,7 +68,7 @@
                 credentials: 'include',
                 body: JSON.stringify({
                     category_id: parseInt(category_id), // Handle numeric vs uuid depending on backend
-                    type,
+                    transaction_type: type,
                     amount: parseInt(amount),
                     description,
                     date

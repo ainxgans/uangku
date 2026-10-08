@@ -11,8 +11,7 @@
         window.location.href = resolve('/login');
     }
 
-    const publicRoutes = [resolve('/login'), resolve('/')];
-    let isPublic = $derived(publicRoutes.includes(page.url.pathname));
+    let isPublic = $derived(page.url.pathname === '/' || page.url.pathname === '/login' || page.url.pathname === resolve('/') || page.url.pathname === resolve('/login'));
 </script>
 
 {#if isPublic}
