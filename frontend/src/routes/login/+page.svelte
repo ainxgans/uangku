@@ -38,7 +38,7 @@
             const res = await fetch(resolve('/api/auth/verify-otp'), {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ email, otp }),
+                body: JSON.stringify({ email, code: otp }),
                 credentials: 'include'
             });
             if (!res.ok) {
