@@ -1,2 +1,12 @@
-<h1>Welcome to SvelteKit</h1>
-<p>Visit <a href="https://svelte.dev/docs/kit">svelte.dev/docs/kit</a> to read the documentation</p>
+<script>
+    import { resolve } from '$app/paths';
+    import { onMount } from 'svelte';
+
+    onMount(() => {
+        window.location.replace(resolve('/dashboard'));
+    });
+</script>
+
+<div class="p-8 text-center text-gray-500">
+    <p>Redirecting to dashboard...</p>
+</div>

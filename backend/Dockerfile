@@ -1,10 +1,12 @@
-FROM rust:1.90-slim-bullseye AS builder
+FROM rust:latest AS builder
 
 WORKDIR /app
 COPY . .
 RUN cargo build --release
 
-FROM debian:bullseye-slim
+FROM debian:trixie-slim
+
+RUN apt-get update && apt-get install -y --no-install-recommends ca-certificates && rm -rf /var/lib/apt/lists/*
 
 WORKDIR /app
 COPY --from=builder /app/target/release/uangku_backend-cli /app/uangku-backend

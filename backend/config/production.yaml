@@ -29,14 +29,14 @@ logger:
 # Web server configuration
 server:
   # Port on which the server will listen. the server binding is 0.0.0.0:{PORT}
-  port: <%= get_env(name="PORT", default="5150") %>
+  port: <%= get_env(name="PORT", default="3000") %>
   # Binding for the server (which interface to bind to).
   # `0.0.0.0`, not `localhost`: inside a container or a VM, a server bound to
   # loopback is unreachable from outside it.
   binding: <%= get_env(name="BINDING", default="0.0.0.0") %>
   # The UI hostname or IP address that mailers will point to.
   # Required: links in outgoing mail have to name the real host.
-  host: <%= get_env(name="HOST") %>
+  host: <%= get_env(name="HOST", default="https://ainxgans.my.id/uangku") %>
   # Out of the box middleware configuration. to disable middleware you can changed the `enable` field to `false` of comment the middleware block
   middlewares:
 
@@ -54,26 +54,24 @@ queue:
   kind: Postgres
   
   # Postgres connection URI. Commonly the same value as DATABASE_URL.
-  uri: <%= get_env(name="QUEUE_URL") %>
+  uri: <%= get_env(name="DATABASE_URL") %>
   # Dangerously flush all data in the queue table on startup. dangerous operation, make sure that you using this flag only on dev environments or test mode
   dangerously_flush: false
   
 
 # Mailer Configuration.
 mailer:
+  stub: true
   # SMTP mailer configuration.
   smtp:
     # Enable/Disable smtp mailer.
-    enable: true
+    enable: false
     # SMTP server host. e.x localhost, smtp.gmail.com
-    host: <%= get_env(name="MAILER_HOST") %>
+    host: localhost
     # SMTP server port
-    port: <%= get_env(name="MAILER_PORT", default="587") %>
+    port: 1025
     # Use secure connection (SSL/TLS).
-    secure: true
-    auth:
-      user: <%= get_env(name="MAILER_USER") %>
-      password: <%= get_env(name="MAILER_PASSWORD") %>
+    secure: false
     # Override the SMTP hello name (default is the machine's hostname)
     # hello_name:
 
@@ -119,3 +117,7 @@ auth:
     secret: <%= get_env(name="JWT_SECRET") %>
     # Token expiration time in seconds
     expiration: 604800 # 7 days
+    location:
+      - from: Cookie
+        name: token
+      - from: Bearer

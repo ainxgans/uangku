@@ -87,9 +87,9 @@ pub async fn remove(
 
 pub fn routes() -> Routes {
     Routes::new()
-        .prefix("categories")
+        .prefix("/api/categories")
         .add("/", get(list))
         .add("/", post(add))
-        .add("/:id", put(update))
-        .add("/:id", delete(remove))
+        .add("/{id}", put(update))
+        .add("/{id}", delete(remove))
 }

@@ -4,6 +4,7 @@ WORKDIR /app
 COPY package*.json ./
 RUN npm ci
 COPY . .
+ENV BASE_PATH=/uangku
 RUN npm run build
 
 FROM node:24-alpine
@@ -16,5 +17,6 @@ COPY --from=builder /app/node_modules ./node_modules
 EXPOSE 3001
 ENV PORT=3001
 ENV NODE_ENV=production
+ENV BASE_PATH=/uangku
 
 CMD ["node", "build/index.js"]

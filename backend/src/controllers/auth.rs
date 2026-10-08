@@ -30,7 +30,10 @@ async fn request_otp(
 ) -> Result<Response> {
     let user = UserModel::find_or_create_by_email(&ctx.db, &params.email).await?;
     let code = OtpModel::create_otp(&ctx.db, user.id).await?;
-    AuthMailer::send_otp(&ctx, &user, &code).await?;
+    tracing::info!("Generated OTP for {}: {}", user.email, code);
+    if let Err(err) = AuthMailer::send_otp(&ctx, &user, &code).await {
+        tracing::warn!("Failed to send OTP email: {}, OTP code: {}", err, code);
+    }
     format::json(AuthResponse {
         message: "OTP sent".into(),
     })

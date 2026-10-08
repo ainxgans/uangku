@@ -1,46 +1,46 @@
 services:
-  postgres:
-    image: postgres:16-alpine
-    restart: always
-    volumes:
-      - pgdata:/var/lib/postgresql/data
-    environment:
-      POSTGRES_DB: uangku
-      POSTGRES_USER: uangku
-      POSTGRES_PASSWORD: ${DB_PASSWORD}
-    ports:
-      - "5432:5432"
-
   backend:
     build:
       context: ./backend
       dockerfile: Dockerfile
-    restart: always
-    depends_on:
-      - postgres
+    container_name: uangku-backend
+    restart: unless-stopped
+    env_file: .env
     environment:
-      DATABASE_URL: postgres://uangku:${DB_PASSWORD}@postgres:5432/uangku
+      DATABASE_URL: ${DATABASE_URL:-postgres://app:app@reusable-postgres:5432/uangku}
       LOCO_ENV: production
       PORT: 3000
       BINDING: 0.0.0.0
+      HOST: ${HOST:-https://ainxgans.my.id/uangku}
       JWT_SECRET: ${JWT_SECRET}
+      MAILER_ENABLE: ${MAILER_ENABLE:-false}
     ports:
-      - "3000:3000"
+      - "127.0.0.1:3000:3000"
+    volumes:
+      - ./backend/config:/app/config:ro
+    networks:
+      - reusable-network
 
   frontend:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    restart: always
+    container_name: uangku-frontend
+    restart: unless-stopped
     depends_on:
       - backend
+    env_file: .env
     environment:
       NODE_ENV: production
+      HOST: 0.0.0.0
       PORT: 3001
-      ORIGIN: ${PUBLIC_DOMAIN:-http://localhost:3001}
-      PUBLIC_API_URL: http://backend:3000
+      BASE_PATH: /uangku
+      ORIGIN: ${PUBLIC_DOMAIN:-https://ainxgans.my.id}
     ports:
-      - "3001:3001"
+      - "127.0.0.1:3001:3001"
+    networks:
+      - reusable-network
 
-volumes:
-  pgdata:
+networks:
+  reusable-network:
+    external: true

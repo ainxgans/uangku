@@ -6,7 +6,10 @@ import adapter from '@sveltejs/adapter-node';
 export default defineConfig({
 	plugins: [
 		sveltekit({
-			adapter: adapter()
+			adapter: adapter(),
+			paths: {
+				base: process.env.BASE_PATH || '/uangku'
+			}
 		}), 
 		tailwindcss()
 	]

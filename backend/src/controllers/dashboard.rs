@@ -12,10 +12,12 @@ use crate::models::_entities::categories;
 use crate::models::_entities::transactions;
 use crate::models::_entities::users;
 
+use chrono::Datelike;
+
 #[derive(Clone, Debug, Serialize, Deserialize)]
 pub struct DashboardQuery {
-    pub month: i32,
-    pub year: i32,
+    pub month: Option<i32>,
+    pub year: Option<i32>,
 }
 
 #[derive(Clone, Debug, Serialize, Deserialize)]
@@ -47,11 +49,15 @@ pub async fn summary(
 ) -> Result<Response> {
     let user = users::Model::find_by_pid(&ctx.db, &auth.claims.pid).await?;
     
-    let start_date = chrono::NaiveDate::from_ymd_opt(query.year, query.month as u32, 1)
+    let now = chrono::Utc::now().naive_utc().date();
+    let year = query.year.unwrap_or_else(|| now.year());
+    let month = query.month.unwrap_or_else(|| now.month() as i32);
+
+    let start_date = chrono::NaiveDate::from_ymd_opt(year, month as u32, 1)
         .ok_or_else(|| Error::BadRequest("Invalid date".into()))?;
     
-    let next_m = if query.month == 12 { 1 } else { query.month + 1 };
-    let next_y = if query.month == 12 { query.year + 1 } else { query.year };
+    let next_m = if month == 12 { 1 } else { month + 1 };
+    let next_y = if month == 12 { year + 1 } else { year };
     let end_date = chrono::NaiveDate::from_ymd_opt(next_y, next_m as u32, 1)
         .ok_or_else(|| Error::BadRequest("Invalid date".into()))?;
 
@@ -121,6 +127,6 @@ pub async fn summary(
 
 pub fn routes() -> Routes {
     Routes::new()
-        .prefix("dashboard")
+        .prefix("/api/dashboard")
         .add("/summary", get(summary))
 }
