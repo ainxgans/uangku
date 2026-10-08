@@ -1,6 +1,5 @@
 <script lang="ts">
     import { resolve } from '$app/paths';
-    import { goto } from '$app/navigation';
 
     let checking = $state(true);
 
@@ -9,7 +8,7 @@
         fetch(resolve('/api/auth/me'), { credentials: 'include' })
             .then(res => {
                 if (res.ok) {
-                    goto('/dashboard');
+                    window.location.href = resolve('/dashboard');
                 } else {
                     checking = false;
                 }
