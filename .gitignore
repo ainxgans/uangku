@@ -14,13 +14,11 @@ lerna-debug.log*
 frontend/node_modules
 frontend/build
 frontend/.svelte-kit
-frontend/package-lock.json
 frontend/yarn.lock
 frontend/pnpm-lock.yaml
 
 # Rust / Loco
 backend/target
-backend/Cargo.lock
 
 # Environment
 .env
