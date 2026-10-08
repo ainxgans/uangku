@@ -1,0 +1,46 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    restart: always
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+    environment:
+      POSTGRES_DB: uangku
+      POSTGRES_USER: uangku
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+    ports:
+      - "5432:5432"
+
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - postgres
+    environment:
+      DATABASE_URL: postgres://uangku:${DB_PASSWORD}@postgres:5432/uangku
+      LOCO_ENV: production
+      PORT: 3000
+      BINDING: 0.0.0.0
+      JWT_SECRET: ${JWT_SECRET}
+    ports:
+      - "3000:3000"
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    restart: always
+    depends_on:
+      - backend
+    environment:
+      NODE_ENV: production
+      PORT: 3001
+      ORIGIN: ${PUBLIC_DOMAIN:-http://localhost:3001}
+      PUBLIC_API_URL: http://backend:3000
+    ports:
+      - "3001:3001"
+
+volumes:
+  pgdata:
