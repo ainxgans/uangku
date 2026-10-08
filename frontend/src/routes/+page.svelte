@@ -28,14 +28,14 @@
     <div class="min-h-screen bg-slate-50 text-slate-900 font-sans">
         <header class="max-w-6xl mx-auto px-6 py-6 flex justify-between items-center">
             <div class="text-xl font-bold tracking-tight">Uangku.</div>
-            <a href="/login" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-medium rounded-xl hover:bg-slate-800 transition-colors active:scale-[0.98]">Sign In</a>
+            <a href="/login" class="px-5 py-2.5 bg-slate-900 text-white text-sm font-medium rounded-2xl hover:bg-slate-800 transition-colors active:scale-[0.98]">Sign In</a>
         </header>
 
         <main class="max-w-6xl mx-auto px-6 py-24 md:py-32">
             <div class="max-w-3xl">
                 <h1 class="text-5xl md:text-7xl font-bold tracking-tight mb-6 leading-tight">Track every penny, <span class="text-slate-400">simply.</span></h1>
                 <p class="text-xl text-slate-500 mb-10 leading-relaxed max-w-2xl">Stop guessing where your money goes. Uangku is the minimal, fast, and secure way to take control of your personal finances.</p>
-                <a href="/login" class="inline-block px-8 py-4 bg-slate-900 text-white font-medium rounded-xl hover:bg-slate-800 transition-colors active:scale-[0.98] text-lg">Start Tracking — Free</a>
+                <a href="/login" class="inline-block px-8 py-4 bg-slate-900 text-white font-medium rounded-2xl hover:bg-slate-800 transition-colors active:scale-[0.98] text-lg">Start Tracking — Free</a>
             </div>
 
             <div class="grid grid-cols-1 md:grid-cols-3 gap-8 mt-32 border-t border-slate-200 pt-16">
